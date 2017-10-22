@@ -34,6 +34,7 @@ public class BaseTel {
 	public void removeClient(String session) {
 		
 		if(clientMap.containsKey(session)) {
+			@SuppressWarnings("unused")
 			SocketClinet clinet = clientMap.get(session);
 			clinet = null;
 			clientMap.remove(session);

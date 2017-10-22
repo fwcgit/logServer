@@ -8,6 +8,8 @@ import java.net.Socket;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import com.fu.log.LogPrint;
+
 public class SocketClinet extends Client implements Runnable  {
 	
 	private Socket socket;
@@ -118,7 +120,7 @@ public class SocketClinet extends Client implements Runnable  {
 							}
 						}
 						
-						System.out.println(name+":"+str);
+						LogPrint.getInstance().printf(name, name+">>"+str);
 						
 					}
 					
