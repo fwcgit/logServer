@@ -23,7 +23,7 @@ public class Main {
 			 
 			 String cmd = sc.nextLine();
 			 
-			 if(cmd.startsWith("list")) {
+			 if(cmd.startsWith("ls")) {
 				 
 				 SessionTab.getInstance().printClientList();
 				 
@@ -48,10 +48,10 @@ public class Main {
 				 if(strs.length == 2) {
 					 
 					 ClientControl.getInstance().sendData(strs[1],"-close-");
-					 
+					 ClientControl.getInstance().closeClient(strs[1]);
 				 }else {
 					 
-					 System.err.println("send [session]");
+					 System.err.println("close [session]");
 					 
 				 }
 			 }else if(cmd.startsWith("filter")) {
@@ -68,6 +68,20 @@ public class Main {
 					 
 				 }
  
+			 }else if(cmd.startsWith("up")){
+				 
+				 String[] strs = cmd.split(" ");
+				 
+				 if(strs.length == 3) {
+					 
+					 ClientControl.getInstance().sendData(strs[1],"-update-"+strs[2]+"-");
+					 
+				 }else {
+					 
+					 System.err.println("up [session] [cmd]");
+					 
+				 }
+				 
 			 } else if(cmd.equals("exit")) {
 				 System.exit(0);
 			 }

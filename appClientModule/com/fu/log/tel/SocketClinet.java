@@ -72,6 +72,27 @@ public class SocketClinet extends Client implements Runnable  {
 		}
 	}
 	
+	
+	void closeSocket(){
+		
+		isRun = false;
+	
+		try {
+			
+			if(null != socket) {
+				socket.close();
+			}
+			
+			socket = null;
+				
+			stopTimer();
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
 	public void sendData(String data) {
 		
 		try {

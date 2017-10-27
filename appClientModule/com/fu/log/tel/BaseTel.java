@@ -2,7 +2,6 @@ package com.fu.log.tel;
 
 import java.net.InetAddress;
 import java.util.Map;
-import java.util.Random;
 
 public class BaseTel {
 	
@@ -10,23 +9,28 @@ public class BaseTel {
 	
 	public void acceptClient(SocketClinet clinet) {
 		
-		System.out.println("accept clinet ip = " + clinet.getInetAddress().getHostAddress());
-		
-		String session = createSession(clinet.getInetAddress());
-		
-		System.out.println("accept clinet session = " + session);
-
-		clinet.setSession(session);
-		
+	
 		if(clinet.isConnected() && !clinet.isClosed()) {
 			
-			if(clientMap.containsKey(session)) {
+			System.out.println("request clinet ip = " + clinet.getInetAddress().getHostAddress());
+			String session = createSession(clinet.getInetAddress());
+			clinet.setSession(session);
+			
+			if(clientMap.containsKey(session)){
+				
 				SocketClinet socketClinet = clientMap.get(session);
-				socketClinet.stop();
+				
+				System.out.println("remove clinet session = " + socketClinet.getSession());
+				
+				socketClinet.closeSocket();
 				clientMap.remove(session);
+				
+			}else{
+				
+				System.out.println("accept clinet session = " + session);
+				clientMap.put(session, clinet);
 			}
 			
-			clientMap.put(session, clinet);
 		}
 	}
 	
@@ -46,8 +50,12 @@ public class BaseTel {
 	public void closeClient(String session) {
 		
 		if(clientMap.containsKey(session)) {
+			
 			SocketClinet clinet = clientMap.get(session);
-			clinet.stop();
+			
+			System.out.println(clinet.getName() + ":" + session+":remove and disconnect");
+
+			clinet.closeSocket();
 			clinet = null;
 			clientMap.remove(session);
 		}
@@ -65,15 +73,15 @@ public class BaseTel {
 	private String createSession(InetAddress address) {
 		
 		int[] randomKey = new int[] {2,4,6,5,9,3,5,4,3};
+		
 		String ip = address.getHostAddress();
 		byte[] ips = ip.getBytes();
 		
-		Random random = new Random();
 		StringBuffer sb = new StringBuffer();
-		
+	
 		for(int i = 0; i < ips.length ; i++) {
 			
-			String hex = Integer.toHexString(ips[i]+random.nextInt(randomKey.hashCode()));
+			String hex = Integer.toHexString(ips[i]+ randomKey[i % randomKey.length]);
 			if(hex.length() > 2) {
 				hex = hex.substring(0, 2);
 			}

@@ -35,7 +35,7 @@ public class SessionTab {
 			
 			SocketClinet clinet = clientMap.get(key);
 			
-			System.out.println((i++)+"¡¢"+clinet.getName()+"-----"+clinet.getSession());
+			System.out.println((i++)+"ã€"+clinet.getName()+"-----"+clinet.getSession());
 		}
 		
 	}
