@@ -4,7 +4,14 @@ public class ClientControl extends BaseTel {
 
 	private static ClientControl clientControl;
 	public static ClientControl getInstance() {
-		return clientControl == null ? clientControl = new ClientControl() : clientControl;
+		
+		synchronized (ClientControl.class) {
+			if(clientControl == null) {
+				 clientControl = new ClientControl();
+			}
+		}
+		
+		return clientControl;
 	}
 	
 	private ClientControl() {}
